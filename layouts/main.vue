@@ -1,27 +1,33 @@
 <template>
   <div>
-    <h1>this is a title</h1>
+    <el-menu/>
     <nuxt/>
   </div>
 </template>
 
+<script>
+import axios from 'axios'
+import Menu from '~/components/Menu.vue'
+
+export default {
+  async asyncData ({ params }) {
+    let { data } = await axios.get(`http://api.share.localhost/api/report/industry`)
+    return { list: data.data }
+  },
+  layout: 'default',
+  components: {
+    'el-menu': Menu
+  },
+  methods: {
+    dateToday: function (t) {
+      t = new Date(t)
+      return t.getYear() + '年' + t.getMonth() + '月' + t.getDay() + '日'
+    }
+  }
+}
+</script>
+
 <style>
-html {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
 .button--green {
   display: inline-block;
   border-radius: 4px;

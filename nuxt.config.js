@@ -9,6 +9,9 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
+    script: [
+      { src: '//at.alicdn.com/t/font_470836_ww0y4xlcaj198uxr.js' }
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -34,5 +37,13 @@ module.exports = {
         })
       }
     }
+  },
+
+  css: [
+    {src: '~assets/style/reset.scss', lang: 'scss'}
+  ],
+
+  env: {
+    baseUrl: 'http://share.localhost'
   }
 }
