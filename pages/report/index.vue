@@ -35,21 +35,19 @@
           <el-loading :show="ifloading"></el-loading>
           <div class="row">  
               <div class="th first date">报告日期</div>  
-              <div class="th ind">行业名称</div>  
-              <div class="th zdf">涨跌幅</div>  
+              <div class="th ind">股票代码</div>  
               <div class="th tit">标题</div>  
-              <div class="th pjtype">评级类别</div>  
+              <div class="th pjtype">原文评级</div>  
               <div class="th pjchange">评级变动</div>  
               <div class="th last insname">机构名称</div>  
           </div>
 
           <div class="row" v-for="v in list"> 
-            <div class="td">{{dateToday(v.date)}}</div>
-            <div class="td">{{v.indname}}</div>
-            <div class="td">{{v.fluctuation}}</div>
-            <div class="td"><p class="title"><a :href="baseUrl('/report/industry/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
-            <div class="td">{{v.pjtype}}</div>
-            <div class="td">{{v.pjchange}}</div>
+            <div class="td">{{dateToday(v.created_at)}}</div>
+            <div class="td">{{v.code}}</div>
+            <div class="td"><p class="title"><a :href="baseUrl('/report/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
+            <div class="td">{{v.rate}}</div>
+            <div class="td">{{v.change}}</div>
             <div class="td">{{v.insname}}</div>
           </div>  
         </div>
@@ -78,7 +76,8 @@ export default {
         page: query.page
       }
     }
-    var url = '/api/report/industry'
+    var url = '/api/report'
+    console.log(url)
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,
@@ -123,7 +122,8 @@ export default {
           page: vm.page
         }
       }
-      axios.get(`http://share.localhost/api/report/industry`, formData)
+      var url = '/api/report'
+      axios.get(url, formData)
         .then(function (res) {
           vm.current_page = vm.page
           vm.list = res.data.data.data

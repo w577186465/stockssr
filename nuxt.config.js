@@ -44,6 +44,9 @@ module.exports = {
   ],
 
   env: {
-    baseUrl: 'http://share.localhost'
-  }
+    baseUrl: 'http://share.localhost',
+    apiPath: 'http://share.localhost/api'
+  },
+
+  plugins: ['~plugins/common']
 }

@@ -12,20 +12,20 @@
         </div>
         <ul class="nav">
           <li class="clearfix current">
-            <a href="#">
+            <nuxt-link :to="{name: 'report'}">
               <svg class="icon" aria-hidden="true">
                   <use xlink:href="#icon-_TabBar_gongwenbao"></use>
               </svg>
-              <span>个股研报</span>
-            </a>
+              个股研报
+            </nuxt-link>
           </li>
           <li class="clearfix">
-            <a href="#">
-               <svg class="icon" aria-hidden="true">
+            <nuxt-link :to="{name: 'report-industry'}">
+              <svg class="icon" aria-hidden="true">
                   <use xlink:href="#icon-fenlei"></use>
               </svg>
-              <span>行业研报</span>
-            </a>
+              行业研报
+            </nuxt-link>
           </li>
         </ul>
       </div>
@@ -60,7 +60,8 @@ import loading from '@/components/Loading'
 
 export default {
   async asyncData ({params}) {
-    let { data } = await axios.get(`http://share.localhost/api/report/industry/` + params.id)
+    var url = '/api/report/industry/'
+    let { data } = await axios.get(url + params.id)
     var info = data.data
     return {
       title: info.title.replace(/&sbquo;/g, '，'),

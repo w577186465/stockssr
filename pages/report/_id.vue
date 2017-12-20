@@ -31,32 +31,22 @@
       </div>
 
       <div class="rightwarp transtion clearfix">
-        <div class="table">
-          <el-loading :show="ifloading"></el-loading>
-          <div class="row">  
-              <div class="th first date">报告日期</div>  
-              <div class="th ind">行业名称</div>  
-              <div class="th zdf">涨跌幅</div>  
-              <div class="th tit">标题</div>  
-              <div class="th pjtype">评级类别</div>  
-              <div class="th pjchange">评级变动</div>  
-              <div class="th last insname">机构名称</div>  
+        <div class="content">
+          <h1>{{title}}</h1>
+          <div class="info">
+            <span class="time">
+              <i>
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-shijian5"></use>
+                </svg>
+              </i>
+              {{time}}
+            </span>
           </div>
-
-          <div class="row" v-for="v in list"> 
-            <div class="td">{{dateToday(v.date)}}</div>
-            <div class="td">{{v.indname}}</div>
-            <div class="td">{{v.fluctuation}}</div>
-            <div class="td"><p class="title"><a :href="baseUrl('/report/industry/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
-            <div class="td">{{v.pjtype}}</div>
-            <div class="td">{{v.pjchange}}</div>
-            <div class="td">{{v.insname}}</div>
-          </div>  
+          <div class="text" v-html="content">
+          </div>
         </div>
 
-        <!-- <el-content :id="id"></el-content> -->
-
-        <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
       </div>
 
     </div>
@@ -67,23 +57,17 @@
 import axios from 'axios'
 import page from '@/components/Page'
 import loading from '@/components/Loading'
-import content from '@/components/report/industry/Content'
 
 export default {
-  async asyncData (context) {
-    var query = context.route.query
-    var formdata = {
-      params: {
-        pagesize: 50,
-        page: query.page
-      }
-    }
-    var url = '/api/report/industry'
-    let { data } = await axios.get(url, formdata)
+  async asyncData ({params}) {
+    var url = process.env.apiPath + '/report/'
+    let { data } = await axios.get(url + params.id)
+    var info = data.data
+    console.log(info)
     return {
-      list: data.data.data,
-      current_page: data.data.current_page,
-      last_page: data.data.last_page
+      title: info.title.replace(/&sbquo;/g, '，'),
+      content: info.content,
+      time: info.created_at
     }
   },
   data: function () {
@@ -96,8 +80,7 @@ export default {
   },
   components: {
     'el-page': page,
-    'el-loading': loading,
-    'el-content': content
+    'el-loading': loading
   },
   layout: 'main',
   created: function () {
@@ -132,9 +115,6 @@ export default {
     },
     single: function (id) {
 
-    },
-    baseUrl: function (href) {
-      return process.env.baseUrl + href
     }
   }
 }
@@ -145,74 +125,38 @@ export default {
     
   }
 
-  .table {
-    color: #676767;
-    display:table;
-    border-collapse:separate;
-    position: relative;
-    width: 100%;
+  // 正文部分
+  .content {
+    margin: 20px 0;
+    padding: 0 20px;
 
-    .row {  
-      display:table-row;
-      border-spacing:10px;
-      overflow: hidden;
-      border-radius: 5px;
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #576898;
     }
 
-    .row:hover {
-      background-color: #ecf1fb;
+    .info {
+      margin-bottom: 15px;
+
+      .time {
+        color: #676767;
+      }
+
+      .time i {
+        font-size: 16px;
+      }
     }
 
-    .th, .td {  
-      display:table-cell;
-      padding: 5px 10px;
-      text-align: center;
+    .text {
+      font-size: 16px;
+      color: #444;
+      line-height: 28px;
+
+      p {
+        margin-bottom: 10px;
+      }
     }
-
-    .th {
-      background-color: #ecedf1;
-      color: #777;
-      line-height: 25px;
-    }
-
-    .date {
-      min-width: 110px;
-    }
-
-    .ind {
-      min-width: 110px;
-    }
-
-    .td {
-      height: 30px;
-      line-height: 30px;
-      overflow: hidden;
-      min-width: 102px;
-    }
-
-    .title {
-      height: 30px;
-      line-height: 30px;
-      overflow: hidden;
-    }
-
-    .row .th.first {
-      border-radius: 5px 0 0 5px;
-    }
-
-    .row .th.last {
-      border-radius: 0 5px 5px 0;
-    }
-
-    .row .one {  
-      width:200px;  
-    }  
-    .row .two {  
-      width:200px;  
-    }  
-    .row .three {  
-
-    } 
   }
 
   $leftwidth: 180px; // 左侧折叠宽度

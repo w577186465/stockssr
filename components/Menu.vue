@@ -15,8 +15,7 @@ export default {
   data () {
     return {
       menus: [
-        {name: '研报', url: '/report'},
-        {name: '快讯', url: '/news'}
+        {name: '研报', url: '/report'}
       ]
     }
   },
