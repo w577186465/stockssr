@@ -1,5 +1,4 @@
 import Vue from 'vue'
+import axios from 'axios'
 
-Vue.prototype.apiPath = function (path) {
-  return process.env.apiPath + path
-}
+Vue.use(axios)

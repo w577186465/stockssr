@@ -76,8 +76,7 @@ export default {
         page: query.page
       }
     }
-    var url = '/api/report'
-    console.log(url)
+    var url = process.env.apiUrl + '/report'
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,
@@ -122,7 +121,7 @@ export default {
           page: vm.page
         }
       }
-      var url = '/api/report'
+      var url = process.env.apiUrl + '/api/report'
       axios.get(url, formData)
         .then(function (res) {
           vm.current_page = vm.page

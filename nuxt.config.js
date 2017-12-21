@@ -10,7 +10,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     script: [
-      { src: '//at.alicdn.com/t/font_470836_ww0y4xlcaj198uxr.js' }
+      { src: '//at.alicdn.com/t/font_463942_3liwymkp95cxflxr.js' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -36,7 +36,8 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    vendor: ['axios']
   },
 
   css: [
@@ -44,9 +45,14 @@ module.exports = {
   ],
 
   env: {
-    baseUrl: 'http://share.localhost',
-    apiPath: 'http://share.localhost/api'
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    apiUrl: process.env.API_URL || process.env.API_URL + '/api'
   },
 
-  plugins: ['~plugins/common']
+  plugins: [
+    {
+      src: '~plugins/common',
+      ssr: true
+    }
+  ]
 }

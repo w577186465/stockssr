@@ -60,7 +60,7 @@ import loading from '@/components/Loading'
 
 export default {
   async asyncData ({params}) {
-    var url = '/api/report/industry/'
+    var url = process.env.apiUrl + '/report/industry/'
     let { data } = await axios.get(url + params.id)
     var info = data.data
     return {
