@@ -1,65 +1,31 @@
 <template>
-  <div class="container">
-    <div class="warp" v-bind:class="[onfold ? 'fold' : 'unfold']">
-      <div class="leftwarp transtion">
-        <div class="foldbtn">
-          <svg class="icon" aria-hidden="true" v-if="!onfold" v-on:click="setfold()">
-              <use xlink:href="#icon-menufold"></use>
-          </svg>
-          <svg class="icon" aria-hidden="true" v-if="onfold" v-on:click="setfold()">
-              <use xlink:href="#icon-menuunfold"></use>
-          </svg>
-        </div>
-        <ul class="nav">
-          <li class="clearfix current">
-            <nuxt-link :to="{name: 'report'}">
-              <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-_TabBar_gongwenbao"></use>
-              </svg>
-              个股研报
-            </nuxt-link>
-          </li>
-          <li class="clearfix">
-            <nuxt-link :to="{name: 'report-industry'}">
-              <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-fenlei"></use>
-              </svg>
-              行业研报
-            </nuxt-link>
-          </li>
-        </ul>
+  <div class="list">
+    <div class="table">
+      <el-loading :show="ifloading"></el-loading>
+      <div class="row">  
+          <div class="th first date">报告日期</div>  
+          <div class="th ind">行业名称</div>  
+          <div class="th zdf">涨跌幅</div>  
+          <div class="th tit">标题</div>  
+          <div class="th pjtype">评级类别</div>  
+          <div class="th pjchange">评级变动</div>  
+          <div class="th last insname">机构名称</div>  
       </div>
 
-      <div class="rightwarp transtion clearfix">
-        <div class="table">
-          <el-loading :show="ifloading"></el-loading>
-          <div class="row">  
-              <div class="th first date">报告日期</div>  
-              <div class="th ind">行业名称</div>  
-              <div class="th zdf">涨跌幅</div>  
-              <div class="th tit">标题</div>  
-              <div class="th pjtype">评级类别</div>  
-              <div class="th pjchange">评级变动</div>  
-              <div class="th last insname">机构名称</div>  
-          </div>
-
-          <div class="row" v-for="v in list"> 
-            <div class="td">{{dateToday(v.date)}}</div>
-            <div class="td">{{v.indname}}</div>
-            <div class="td">{{v.fluctuation}}</div>
-            <div class="td"><p class="title"><a :href="baseUrl('/report/industry/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
-            <div class="td">{{v.pjtype}}</div>
-            <div class="td">{{v.pjchange}}</div>
-            <div class="td">{{v.insname}}</div>
-          </div>  
-        </div>
-
-        <!-- <el-content :id="id"></el-content> -->
-
-        <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
-      </div>
-
+      <div class="row" v-for="v in list"> 
+        <div class="td">{{dateToday(v.date)}}</div>
+        <div class="td">{{v.indname}}</div>
+        <div class="td">{{v.fluctuation}}</div>
+        <div class="td"><p class="title"><a :href="baseUrl('/report/industry/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
+        <div class="td">{{v.pjtype}}</div>
+        <div class="td">{{v.pjchange}}</div>
+        <div class="td">{{v.insname}}</div>
+      </div>  
     </div>
+
+    <!-- <el-content :id="id"></el-content> -->
+
+    <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
   </div>
 </template>
 
@@ -79,7 +45,6 @@ export default {
       }
     }
     var url = process.env.apiUrl + '/report/industry'
-    console.log(url)
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,

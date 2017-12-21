@@ -1,29 +1,41 @@
 <template>
-  <div class="list">
-    <div class="table">
-      <el-loading :show="ifloading"></el-loading>
-      <div class="row">  
-          <div class="th first date">报告日期</div>  
-          <div class="th ind">股票代码</div>  
-          <div class="th tit">标题</div>  
-          <div class="th pjtype">原文评级</div>  
-          <div class="th pjchange">评级变动</div>  
-          <div class="th last insname">机构名称</div>  
+  <div class="container">
+    <div class="warp" v-bind:class="[onfold ? 'fold' : 'unfold']">
+      <div class="leftwarp transtion">
+        <div class="foldbtn">
+          <svg class="icon" aria-hidden="true" v-if="!onfold" v-on:click="setfold()">
+              <use xlink:href="#icon-menufold"></use>
+          </svg>
+          <svg class="icon" aria-hidden="true" v-if="onfold" v-on:click="setfold()">
+              <use xlink:href="#icon-menuunfold"></use>
+          </svg>
+        </div>
+        <ul class="nav">
+          <li class="clearfix current">
+            <nuxt-link :to="{name: 'report'}">
+              <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-_TabBar_gongwenbao"></use>
+              </svg>
+              个股研报
+            </nuxt-link>
+          </li>
+          <li class="clearfix">
+            <nuxt-link :to="{name: 'report-industry'}">
+              <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-fenlei"></use>
+              </svg>
+              行业研报
+            </nuxt-link>
+          </li>
+        </ul>
       </div>
 
-      <div class="row" v-for="v in list"> 
-        <div class="td">{{dateToday(v.created_at)}}</div>
-        <div class="td">{{v.code}}</div>
-        <div class="td"><p class="title"><a :href="baseUrl('/report/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
-        <div class="td">{{v.rate}}</div>
-        <div class="td">{{v.change}}</div>
-        <div class="td">{{v.insname}}</div>
-      </div>  
+      <div class="rightwarp transtion clearfix">
+        <nuxt-child/> 
+        <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
+      </div>
+
     </div>
-
-    <!-- <el-content :id="id"></el-content> -->
-
-    <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
   </div>
 </template>
 

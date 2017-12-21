@@ -1,54 +1,17 @@
 <template>
-  <div class="container">
-    <div class="warp" v-bind:class="[onfold ? 'fold' : 'unfold']">
-      <div class="leftwarp transtion">
-        <div class="foldbtn">
-          <svg class="icon" aria-hidden="true" v-if="!onfold" v-on:click="setfold()">
-              <use xlink:href="#icon-menufold"></use>
+  <div class="content">
+    <h1>{{title}}</h1>
+    <div class="info">
+      <span class="time">
+        <i>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-shijian5"></use>
           </svg>
-          <svg class="icon" aria-hidden="true" v-if="onfold" v-on:click="setfold()">
-              <use xlink:href="#icon-menuunfold"></use>
-          </svg>
-        </div>
-        <ul class="nav">
-          <li class="clearfix current">
-            <nuxt-link :to="{name: 'report'}">
-              <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-_TabBar_gongwenbao"></use>
-              </svg>
-              个股研报
-            </nuxt-link>
-          </li>
-          <li class="clearfix">
-            <nuxt-link :to="{name: 'report-industry'}">
-              <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-fenlei"></use>
-              </svg>
-              行业研报
-            </nuxt-link>
-          </li>
-        </ul>
-      </div>
-
-      <div class="rightwarp transtion clearfix">
-        <div class="content">
-          <h1>{{title}}</h1>
-          <div class="info">
-            <span class="time">
-              <i>
-                <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-shijian5"></use>
-                </svg>
-              </i>
-              {{time}}
-            </span>
-          </div>
-          <div class="text" v-html="content">
-          </div>
-        </div>
-
-      </div>
-
+        </i>
+        {{time}}
+      </span>
+    </div>
+    <div class="text" v-html="content">
     </div>
   </div>
 </template>
