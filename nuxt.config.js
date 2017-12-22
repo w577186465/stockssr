@@ -46,7 +46,7 @@ module.exports = {
 
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    apiUrl: process.env.API_URL || process.env.API_URL + '/api'
+    apiUrl: process.env.API_URL || 'http://localhost:3000/api'
   },
 
   plugins: [

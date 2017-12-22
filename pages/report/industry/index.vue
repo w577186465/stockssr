@@ -1,7 +1,6 @@
 <template>
   <div class="list">
     <div class="table">
-      <el-loading :show="ifloading"></el-loading>
       <div class="row">  
           <div class="th first date">报告日期</div>  
           <div class="th ind">行业名称</div>  
@@ -13,27 +12,27 @@
       </div>
 
       <div class="row" v-for="v in list"> 
-        <div class="td">{{dateToday(v.date)}}</div>
+        <div class="td">{{v.date}}</div>
         <div class="td">{{v.indname}}</div>
         <div class="td">{{v.fluctuation}}</div>
-        <div class="td"><p class="title"><a :href="baseUrl('/report/industry/' + v.id)" v-bind:title="v.title">{{v.title}}</a></p></div>
+        <div class="td">
+          <p class="title">
+            <nuxt-link :to="{name: 'report-industry-id', params: { id: v.id }}">{{v.title}}</nuxt-link>
+          </p>
+        </div>
         <div class="td">{{v.pjtype}}</div>
         <div class="td">{{v.pjchange}}</div>
         <div class="td">{{v.insname}}</div>
       </div>  
     </div>
 
-    <!-- <el-content :id="id"></el-content> -->
-
-    <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
+    <el-page :num="last_page" :current="current_page" rname="report-industry-id"></el-page>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import page from '@/components/Page'
-import loading from '@/components/Loading'
-import content from '@/components/report/industry/Content'
 
 export default {
   async asyncData (context) {
@@ -54,54 +53,12 @@ export default {
   },
   data: function () {
     return {
-      onfold: false,
-      ifloading: false,
       page: 1,
       id: 1
     }
   },
   components: {
-    'el-page': page,
-    'el-loading': loading,
-    'el-content': content
-  },
-  layout: 'main',
-  created: function () {
-  },
-  methods: {
-    dateToday: function (t) {
-      t = new Date(t)
-      return t.getFullYear() + '年' + t.getMonth() + '月' + t.getDay() + '日'
-    },
-    setfold: function () {
-      this.onfold = !this.onfold
-    },
-    // 翻页
-    gopage: function (page) {
-      this.page = page
-      this.get()
-    },
-    get: function () {
-      this.ifloading = true // 显示loading
-      var vm = this
-      var formData = {
-        params: {
-          page: vm.page
-        }
-      }
-      axios.get(`http://share.localhost/api/report/industry`, formData)
-        .then(function (res) {
-          vm.current_page = vm.page
-          vm.list = res.data.data.data
-          vm.ifloading = false // 隐藏loading
-        })
-    },
-    single: function (id) {
-
-    },
-    baseUrl: function (href) {
-      return process.env.baseUrl + href
-    }
+    'el-page': page
   }
 }
 </script>

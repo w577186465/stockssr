@@ -23,8 +23,9 @@ import loading from '@/components/Loading'
 
 export default {
   async asyncData ({params}) {
-    var url = process.env.apiUrl + '/report/industry/'
-    let { data } = await axios.get(url + params.id)
+    var url = process.env.apiUrl + '/report/industry/' + params.id
+    console.log(url)
+    let { data } = await axios.get(url)
     var info = data.data
     return {
       title: info.title.replace(/&sbquo;/g, '，'),

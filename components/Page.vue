@@ -1,14 +1,15 @@
 <template>
   <section class="paginate clearfix" :class="styleType">
-    <a @click="go($event, 1)" :href="link + 1">首页</a>
-    <a v-for="i of pagenum" @click="go($event, i)" :href="link + i" :class="{currect: i == current}">{{i}}</a>
-    <a @click="go($event, num)" :href="link + num">尾页</a>
+    <nuxt-link :to="{name: rname, query: { page: 1 }}">首页</nuxt-link>
+    <nuxt-link v-for="i of pagenum" :to="{name: name, query: { page: i }}">{{i}}</nuxt-link>
+    <nuxt-link :to="{name: rname, query: { page: num }}">尾页</nuxt-link>
   </section>
 </template>
 
 <script>
 export default {
   props: {
+    rname: String,
     num: Number,
     current: {
       type: Number,
@@ -43,12 +44,6 @@ export default {
         }
       }
       return pag
-    }
-  },
-  methods: {
-    go: function (e, page) {
-      this.$emit('gopage', page)
-      e.preventDefault()
     }
   }
 }

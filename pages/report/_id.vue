@@ -18,18 +18,15 @@
 
 <script>
 import axios from 'axios'
-import page from '@/components/Page'
-import loading from '@/components/Loading'
 
 export default {
   async asyncData ({params}) {
-    var url = process.env.apiUrl + '/report/'
-    console.log(url)
-    let { data } = await axios.get(url + params.id)
+    var url = process.env.apiUrl + '/report/' + params.id
+    let { data } = await axios.get(url)
     var info = data.data
-    console.log(info)
+
     return {
-      title: info.title.replace(/&sbquo;/g, '，'),
+      title: info.title,
       content: info.content,
       time: info.created_at
     }
@@ -40,45 +37,6 @@ export default {
       ifloading: false,
       page: 1,
       id: 1
-    }
-  },
-  components: {
-    'el-page': page,
-    'el-loading': loading
-  },
-  layout: 'main',
-  created: function () {
-  },
-  methods: {
-    dateToday: function (t) {
-      t = new Date(t)
-      return t.getFullYear() + '年' + t.getMonth() + '月' + t.getDay() + '日'
-    },
-    setfold: function () {
-      this.onfold = !this.onfold
-    },
-    // 翻页
-    gopage: function (page) {
-      this.page = page
-      this.get()
-    },
-    get: function () {
-      this.ifloading = true // 显示loading
-      var vm = this
-      var formData = {
-        params: {
-          page: vm.page
-        }
-      }
-      axios.get(`http://share.localhost/api/report/industry`, formData)
-        .then(function (res) {
-          vm.current_page = vm.page
-          vm.list = res.data.data.data
-          vm.ifloading = false // 隐藏loading
-        })
-    },
-    single: function (id) {
-
     }
   }
 }

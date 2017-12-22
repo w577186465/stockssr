@@ -31,8 +31,7 @@
       </div>
 
       <div class="rightwarp transtion clearfix">
-        <nuxt-child/> 
-        <el-page :num="last_page" :current="current_page" link="/report/industry?page=" @gopage="gopage"></el-page>
+        <nuxt-child/>
       </div>
 
     </div>
@@ -46,22 +45,6 @@ import loading from '@/components/Loading'
 import content from '@/components/report/industry/Content'
 
 export default {
-  async asyncData (context) {
-    var query = context.route.query
-    var formdata = {
-      params: {
-        pagesize: 50,
-        page: query.page
-      }
-    }
-    var url = process.env.apiUrl + '/report'
-    let { data } = await axios.get(url, formdata)
-    return {
-      list: data.data.data,
-      current_page: data.data.current_page,
-      last_page: data.data.last_page
-    }
-  },
   data: function () {
     return {
       onfold: false,
