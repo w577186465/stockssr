@@ -44,7 +44,6 @@ export default {
     }
     var url = process.env.apiUrl + '/report'
     console.log(url)
-    
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,
