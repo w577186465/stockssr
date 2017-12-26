@@ -21,9 +21,7 @@ import axios from 'axios'
 
 export default {
   async asyncData ({params}) {
-    var url = process.env.apiUrl + '/report/' + params.id
-    console.log('sdfdsfsdfdsfdsf')
-    console.log(url)
+    var url = '/api/report/' + params.id
     let { data } = await axios.get(url)
     var info = data.data
 

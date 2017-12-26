@@ -43,7 +43,7 @@ export default {
         page: query.page
       }
     }
-    var url = process.env.apiUrl + '/report/industry'
+    var url = '/api/report/industry'
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,

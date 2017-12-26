@@ -41,8 +41,7 @@ export default {
         page: query.page
       }
     }
-    console.log(process.env.apiUrl)
-    var url = 'http://api.share.localhost/api/report'
+    var url = '/api/report'
     let { data } = await axios.get(url, formdata)
     return {
       list: data.data.data,
