@@ -1,7 +1,7 @@
 <template>
   <section class="paginate clearfix" :class="styleType">
     <nuxt-link :to="{name: rname, query: { page: 1 }}">首页</nuxt-link>
-    <nuxt-link v-for="i of pagenum" :to="{name: name, query: { page: i }}">{{i}}</nuxt-link>
+    <nuxt-link v-for="i of pagenum" :key="i" :to="{name: rname, query: { page: i }}">{{i}}</nuxt-link>
     <nuxt-link :to="{name: rname, query: { page: num }}">尾页</nuxt-link>
   </section>
 </template>
