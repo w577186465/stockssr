@@ -39,24 +39,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import page from '@/components/Page'
-import loading from '@/components/Loading'
-import content from '@/components/report/industry/Content'
-
 export default {
   data: function () {
     return {
-      onfold: false,
-      ifloading: false,
-      page: 1,
-      id: 1
+      onfold: false
     }
-  },
-  components: {
-    'el-page': page,
-    'el-loading': loading,
-    'el-content': content
   },
   layout: 'main',
   created: function () {
@@ -68,33 +55,6 @@ export default {
     },
     setfold: function () {
       this.onfold = !this.onfold
-    },
-    // 翻页
-    gopage: function (page) {
-      this.page = page
-      this.get()
-    },
-    get: function () {
-      this.ifloading = true // 显示loading
-      var vm = this
-      var formData = {
-        params: {
-          page: vm.page
-        }
-      }
-      var url = process.env.apiUrl + '/api/report'
-      axios.get(url, formData)
-        .then(function (res) {
-          vm.current_page = vm.page
-          vm.list = res.data.data.data
-          vm.ifloading = false // 隐藏loading
-        })
-    },
-    single: function (id) {
-
-    },
-    baseUrl: function (href) {
-      return process.env.baseUrl + href
     }
   }
 }
@@ -103,76 +63,6 @@ export default {
 <style lang="scss">
   .container {
     
-  }
-
-  .table {
-    color: #676767;
-    display:table;
-    border-collapse:separate;
-    position: relative;
-    width: 100%;
-
-    .row {  
-      display:table-row;
-      border-spacing:10px;
-      overflow: hidden;
-      border-radius: 5px;
-    }
-
-    .row:hover {
-      background-color: #ecf1fb;
-    }
-
-    .th, .td {  
-      display:table-cell;
-      padding: 5px 10px;
-      text-align: center;
-    }
-
-    .th {
-      background-color: #ecedf1;
-      color: #777;
-      line-height: 25px;
-    }
-
-    .date {
-      min-width: 110px;
-    }
-
-    .ind {
-      min-width: 110px;
-    }
-
-    .td {
-      height: 30px;
-      line-height: 30px;
-      overflow: hidden;
-      min-width: 102px;
-    }
-
-    .title {
-      height: 30px;
-      line-height: 30px;
-      overflow: hidden;
-    }
-
-    .row .th.first {
-      border-radius: 5px 0 0 5px;
-    }
-
-    .row .th.last {
-      border-radius: 0 5px 5px 0;
-    }
-
-    .row .one {  
-      width:200px;  
-    }  
-    .row .two {  
-      width:200px;  
-    }  
-    .row .three {  
-
-    } 
   }
 
   $leftwidth: 180px; // 左侧折叠宽度

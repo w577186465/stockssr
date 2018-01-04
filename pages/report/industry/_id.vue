@@ -8,42 +8,38 @@
             <use xlink:href="#icon-shijian5"></use>
           </svg>
         </i>
-        {{time}}
+        {{info.created_at}}
       </span>
     </div>
-    <div class="text" v-html="content">
+    <div class="text" v-html="info.content">
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/plugins/api-axios.js'
 import page from '@/components/Page'
-import loading from '@/components/Loading'
 
 export default {
   async asyncData ({params}) {
-    var url = '/api/report/industry/' + params.id
+    var url = 'report/industry/' + params.id
     console.log(url)
     let { data } = await axios.get(url)
     var info = data.data
     return {
-      title: info.title.replace(/&sbquo;/g, '，'),
-      content: info.content,
-      time: info.date
+      info: info,
+      title: info.title.replace(/&sbquo;/g, '，')
     }
   },
   data: function () {
     return {
       onfold: false,
-      ifloading: false,
       page: 1,
       id: 1
     }
   },
   components: {
-    'el-page': page,
-    'el-loading': loading
+    'el-page': page
   },
   layout: 'main',
   created: function () {
@@ -62,18 +58,15 @@ export default {
       this.get()
     },
     get: function () {
-      this.ifloading = true // 显示loading
-      var vm = this
       var formData = {
         params: {
-          page: vm.page
+          page: this.page
         }
       }
-      axios.get(`http://share.localhost/api/report/industry`, formData)
-        .then(function (res) {
-          vm.current_page = vm.page
-          vm.list = res.data.data.data
-          vm.ifloading = false // 隐藏loading
+      axios.get('report/industry', formData)
+        .then(res => {
+          this.current_page = this.page
+          this.list = res.data.data.data
         })
     },
     single: function (id) {
@@ -121,92 +114,4 @@ export default {
       }
     }
   }
-
-  $leftwidth: 180px; // 左侧折叠宽度
-  $leftfoldwidth: 58px; // 左侧展开宽度
-
-  .warp {
-    position: relative;
-  }
-
-  .unfold {
-    .leftwarp {
-      width: $leftwidth;
-    }
-
-    .rightwarp {
-      margin-left: $leftwidth;
-    }
-  }
-
-  .fold {
-    .leftwarp {
-      width: $leftfoldwidth;
-    }
-
-    .rightwarp {
-      margin-left: $leftfoldwidth;
-    }
-
-    .nav span {
-      opacity: 0;
-    }
-  }
-
-  .leftwarp {
-    float: left;
-    height: 100%;
-    border-right: 1px solid #ecedf1;
-    position: absolute;
-
-    .foldbtn {
-      height: 45px;
-      padding: 0 20px;
-      color: #4a70d6;
-      font-size: 19px;
-
-      .icon {
-        margin: 13px 0 13px 0;
-        cursor: pointer;
-      }
-    }
-
-    .nav {
-      li {
-        width: 100%;
-        height: 45px;
-        overflow: hidden;
-
-        a {
-          padding: 0 20px;
-          line-height: 45px;
-          color: #5d5d5d;
-          display: block;
-        }
-      }
-
-      li.current, li:hover {
-        border-right: 1px solid #4a6fd6;
-        box-sizing: content-box;
-
-        a {
-          background-color: #ecf1fb;
-          color: #4a70d6;
-        }
-      }
-
-      .icon {
-        color: #4a6fd7;
-        font-size: 19px;
-        float: left;
-        margin: 13px 15px 13px 0;
-      }
-    }
-  }
-
-  .rightwarp {
-    margin-left: $leftwidth;
-    padding: 15px;
-  }
-  
 </style>

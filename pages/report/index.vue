@@ -29,20 +29,20 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/plugins/api-axios.js'
 import page from '@/components/Page'
 
 export default {
-  async asyncData (context) {
-    var query = context.route.query
+  async asyncData ({route}) {
+    var query = route.query
     var formdata = {
       params: {
         pagesize: 50,
         page: query.page
       }
     }
-    var url = '/api/report'
-    let { data } = await axios.get(url, formdata)
+
+    let { data } = await axios.get('report', formdata)
     return {
       list: data.data.data,
       current_page: data.data.current_page,
@@ -63,10 +63,6 @@ export default {
 </script>
 
 <style lang="scss">
-  .container {
-    
-  }
-
   .table {
     color: #676767;
     display:table;
@@ -136,92 +132,4 @@ export default {
 
     } 
   }
-
-  $leftwidth: 180px; // 左侧折叠宽度
-  $leftfoldwidth: 58px; // 左侧展开宽度
-
-  .warp {
-    position: relative;
-  }
-
-  .unfold {
-    .leftwarp {
-      width: $leftwidth;
-    }
-
-    .rightwarp {
-      margin-left: $leftwidth;
-    }
-  }
-
-  .fold {
-    .leftwarp {
-      width: $leftfoldwidth;
-    }
-
-    .rightwarp {
-      margin-left: $leftfoldwidth;
-    }
-
-    .nav span {
-      opacity: 0;
-    }
-  }
-
-  .leftwarp {
-    float: left;
-    height: 100%;
-    border-right: 1px solid #ecedf1;
-    position: absolute;
-
-    .foldbtn {
-      height: 45px;
-      padding: 0 20px;
-      color: #4a70d6;
-      font-size: 19px;
-
-      .icon {
-        margin: 13px 0 13px 0;
-        cursor: pointer;
-      }
-    }
-
-    .nav {
-      li {
-        width: 100%;
-        height: 45px;
-        overflow: hidden;
-
-        a {
-          padding: 0 20px;
-          line-height: 45px;
-          color: #5d5d5d;
-          display: block;
-        }
-      }
-
-      li.current, li:hover {
-        border-right: 1px solid #4a6fd6;
-        box-sizing: content-box;
-
-        a {
-          background-color: #ecf1fb;
-          color: #4a70d6;
-        }
-      }
-
-      .icon {
-        color: #4a6fd7;
-        font-size: 19px;
-        float: left;
-        margin: 13px 15px 13px 0;
-      }
-    }
-  }
-
-  .rightwarp {
-    margin-left: $leftwidth;
-    padding: 15px;
-  }
-  
 </style>

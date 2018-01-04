@@ -36,8 +36,7 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    },
-    vendor: ['axios']
+    }
   },
 
   css: [
@@ -45,14 +44,8 @@ module.exports = {
   ],
 
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseUrl: process.env.BASE_URL || 'http://gp.localhost/',
     apiUrl: process.env.API_URL || 'http://api.share.localhost/api'
-  },
-
-  plugins: [
-    {
-      src: '~plugins/common',
-      ssr: true
-    }
-  ]
+  }
 }
+
